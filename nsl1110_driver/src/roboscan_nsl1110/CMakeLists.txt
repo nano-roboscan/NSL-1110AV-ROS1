@@ -56,10 +56,8 @@ find_package(OpenCV REQUIRED)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 
-add_message_files(
-    FILES
-    pose.msg
-)
+#add_message_files(
+#)
 
 generate_messages(
     DEPENDENCIES
@@ -123,7 +121,7 @@ generate_messages(
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-INCLUDE_DIRS include
+#INCLUDE_DIRS include
 LIBRARIES roboscan_pkg
 CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs pcl_ros
 #  INCLUDE_DIRS include
