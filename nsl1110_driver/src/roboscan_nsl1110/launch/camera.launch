@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<launch>
+  <arg name="ns" default="roboscan_nsl1110"/>
+  <arg name="nn" default="camera"/>
+  <arg name="respawn" default="false"/>
+  <arg name="ipAddr" default="192.168.7.2"/>  
+  <arg name="lensType" default="2"/>
+  <arg name="imageType" default="2"/>
+  <arg name="int0"  default="1000"/>
+  <arg name="int1"  default="100"/>
+  <arg name="int2"  default="50"/>
+  <arg name="intGr" default="3000"/>
+  <arg name="minAmplitude" default="100"/>
+  <arg name="modIndex" default="0"/>
+  <arg name="channel" default="0"/>
+  <arg name="medianFilter" default="false"/>
+  <arg name="averageFilter" default="false"/>
+  <arg name="edgeFilterThreshold" default="0"/>
+  <arg name="temporalFilterFactor" default="0.3"/>
+  <arg name="temporalFilterThreshold" default="300"/>
+  <arg name="temporalEdgeThresholdLow" default="0"/>
+  <arg name="temporalEdgeThresholdHigh" default="0"/>
+  <arg name="use_last_value" default="false"/>
+
+  <group ns="$(arg ns)">
+    <node pkg="roboscan_nsl1110"
+          type="roboscan_publish_node"
+          name="$(arg nn)"
+          output="screen"
+          respawn="$(arg respawn)">
+
+      <param name="lensType" value="$(arg lensType)"/>
+      <param name="lensType" value="$(arg imageType)"/>
+      <param name="int0" value="$(arg int0)"/>
+      <param name="int1" value="$(arg int1)"/>
+      <param name="int2" value="$(arg int2)"/>
+      <param name="intGr" value="$(arg intGr)"/>
+      <param name="minAmplitude" value="$(arg minAmplitude)"/>
+      <param name="channel" value="$(arg channel)"/>
+      <param name="medianFilter" value="$(arg medianFilter)"/>
+      <param name="averageFilter" value="$(arg averageFilter)"/>
+      <param name="edgeFilterThreshold" value="$(arg edgeFilterThreshold)"/>
+      <param name="temporalFilterFactor" value="$(arg temporalFilterFactor)"/>
+      <param name="temporalFilterThreshold" value="$(arg temporalFilterThreshold)"/>
+      <param name="temporalEdgeThresholdLow" value="$(arg temporalEdgeThresholdLow)"/>
+      <param name="temporalEdgeThresholdHigh" value="$(arg temporalEdgeThresholdHigh)"/>
+      <param name="use_last_value" value="$(arg use_last_value)"/>
+      
+    </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args= "-d $(find roboscan_nsl1110)/rviz/roboscan_nsl1110rviz.rviz" > </node>
+
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure"> </node>
+
+  </group>
+</launch>

@@ -1,12 +1,8 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(roboscan_nsl1110)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++14)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
@@ -15,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   pcl_ros
   nav_msgs
+  dynamic_reconfigure
 )
 
 #find_package(octomap REQUIRED)
@@ -22,9 +19,13 @@ find_package(catkin REQUIRED COMPONENTS
 #target_link_libraries(${BINNAME} /opt/ros/melodic/lib/liboctomap.so)
 
 find_package(OpenCV REQUIRED)
+
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
+include_directories( include ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -59,10 +60,8 @@ find_package(OpenCV REQUIRED)
 #add_message_files(
 #)
 
-generate_messages(
-    DEPENDENCIES
-    geometry_msgs
-)
+#generate_messages(
+#)
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
@@ -110,6 +109,9 @@ generate_messages(
 #   cfg/DynReconf1.cfg
 #   cfg/DynReconf2.cfg
 # )
+generate_dynamic_reconfigure_options(
+    cfg/roboscan_nsl1110.cfg
+    )
 
 ###################################
 ## catkin specific configuration ##
@@ -120,10 +122,11 @@ generate_messages(
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
+
 catkin_package(
 #INCLUDE_DIRS include
-LIBRARIES roboscan_pkg
-CATKIN_DEPENDS cv_bridge image_transport roscpp sensor_msgs std_msgs pcl_ros
+LIBRARIES roboscan_nsl1110
+CATKIN_DEPENDS roscpp cv_bridge image_transport roscpp sensor_msgs std_msgs pcl_ros dynamic_reconfigure message_runtime
 #  INCLUDE_DIRS include
 #  LIBRARIES roboscan_nsl1110
 #  CATKIN_DEPENDS cv_bridge roscpp
@@ -151,7 +154,13 @@ include_directories(
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 # add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_executable(roboscan_publish_node src/roboscan_publish_node.cpp)
+
+add_executable(roboscan_publish_node src/roboscan_publish_node.cpp
+                                     src/frame.cpp
+                                     src/tcp_connection.cpp
+                                     src/cartesian_transform.cpp
+                                     src/interface.cpp)
+
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
@@ -165,7 +174,8 @@ add_executable(roboscan_publish_node src/roboscan_publish_node.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
-# add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(roboscan_publish_node
+${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node

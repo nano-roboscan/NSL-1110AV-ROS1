@@ -1,13 +1,51 @@
-#환경설정 및 실행방법
+# NSL-11100AA ROS1
+--- NSL-1110AA ROS1 demo ---
+
+1. Build env
+ - Ubuntu18.04
+ - ROS1 Melodic
+ - OPENCV 4.5.4
+ 
+ 
+2. Build NSL-1110AA demo
+```
+$ cd nsd1110_driver
+$ catkin_make
+$ source ./devel/setup.bash
+```
+ 
+3. Start commands
+```
+$ rosrun roboscan_nsl1110 roboscan_publish_node
+$ roslaunch roboscan_nsl1110 camera.launch
+```
+
+# NSL-1110AA View
+
+ ![aaa](https://user-images.githubusercontent.com/106071093/226831747-71e4c269-0fa9-483a-b781-78ac131eaf6b.png)
+
+# OPENCV View
+
+  ![phase2](https://github.com/nano-roboscan/NSL-3130AA-ROS2/assets/106071093/4a134327-213f-4558-9fa7-47de543866c9)
+
+# Set parameters
+```
+$ rqt
+ (reconfigure)
+```
+
+![bbbb](https://user-images.githubusercontent.com/106071093/226831796-d487fc42-5ae4-40c4-b5f9-e4f18af08d7c.png)
+
 
 ```
-~/.bashrc 파일에 추가합니다. 
-	alias cw='cd ~/catkin_ws'
-	alias cs='cd ~/catkin_ws/src'
-	alias cm='cd ~/catkin_ws && catkin_make'
-	source /opt/ros/melodic/setup.bash
-	source ~/catkin_ws/devel/setup.bash
-~/catkin_ws에서 "cm"을 실행합니다. 
-~/catkin_ws/.catkin 파일 내의 경로를 /home/hsoh/catkin_ws/devel/lib/roboscan_pkg으로 변경합니다. 
-roscore 및 rosrun roboscan_pkg roboscan_publish_node 를 실행합니다
+
+//
 ```
+
+ 
+
+
+
+ 
+ 
+ 
