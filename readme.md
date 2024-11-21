@@ -21,21 +21,19 @@ $ roslaunch roboscan_nsl1110 camera.launch
 ```
 
 # NSL-1110AA View
-
- ![aaa](https://user-images.githubusercontent.com/106071093/226831747-71e4c269-0fa9-483a-b781-78ac131eaf6b.png)
+ 
+![pointcloud](https://github.com/user-attachments/assets/9a46060c-65d9-43a0-92e1-30acf0476286)
 
 # OPENCV View
 
-  ![phase2](https://github.com/nano-roboscan/NSL-3130AA-ROS2/assets/106071093/4a134327-213f-4558-9fa7-47de543866c9)
+![imshow](https://github.com/user-attachments/assets/ac2e7f6e-08a6-491b-a085-2062012ebd0c)
 
 # Set parameters
 ```
 $ rqt
  (reconfigure)
 ```
-
-![bbbb](https://user-images.githubusercontent.com/106071093/226831796-d487fc42-5ae4-40c4-b5f9-e4f18af08d7c.png)
-
+![rqt](https://github.com/user-attachments/assets/257d3154-760b-4042-9399-fd617464887f)
 
 ```
 
