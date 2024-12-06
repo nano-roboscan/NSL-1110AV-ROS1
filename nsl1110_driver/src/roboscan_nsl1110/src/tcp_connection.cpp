@@ -13,7 +13,16 @@ char TcpConnection::HOST[20];
 TcpConnection::TcpConnection(boost::asio::io_service& ioService)
   : resolver(ioService), socket(ioService), state(STATE_DISCONNECTED) 
 {
-	strcpy(HOST, "192.168.7.2");
+	if(!HOST)
+	{
+		strcpy(HOST, "192.168.7.2");
+		//printf("tcp default\n");
+	}
+	else
+	{
+		printf("tcp else Ip\n");
+		//printf("IP : %s\n", HOST);
+	}
 }
 
 TcpConnection::~TcpConnection() {
@@ -27,7 +36,7 @@ TcpConnection::~TcpConnection() {
 void TcpConnection::setIpAddr(std::string ipAddr)
 {
 	strcpy(HOST, ipAddr.c_str());
-	//printf("ipaddr = %s\n", HOST);
+	printf("tcpcon ipaddr = %s\n", HOST);
 }
 
 bool TcpConnection::sendCommand(uint8_t *data, int data_len) 

@@ -25,6 +25,7 @@
 #include "roboscan_publish_node.hpp"
 #include <dynamic_reconfigure/server.h>
 #include <roboscan_nsl1110/roboscan_nsl1110Config.h>
+#include <ros/package.h>
 
 using namespace nanosys;
 using namespace std::chrono_literals;
@@ -149,7 +150,7 @@ void roboscanPublisher::setReconfigure()
 	}
 	
 	if( !interface.stopStream() ){
-		printf("setReconfigure error\n");
+		printf("setReconfigure stream error\n");
 		return;
 	}
 
@@ -189,7 +190,6 @@ void roboscanPublisher::setReconfigure()
 void roboscanPublisher::initialise()
 {
 	printf("Init roboscan_nsl1110 node\n");
-	ros::NodeHandle nh;
 
     imgDistancePub = nh.advertise<sensor_msgs::Image>("roboscanDistance", 1); 
     imgAmplPub = nh.advertise<sensor_msgs::Image>("roboscanAmpl", 1); 
@@ -200,7 +200,8 @@ void roboscanPublisher::initialise()
 	cv::namedWindow(WIN_NAME, cv::WINDOW_AUTOSIZE);
 	cv::setMouseCallback(WIN_NAME, callback_mouse_click, NULL);
 
-	lidarParam.ipAddr = "192.168.7.2";
+	loadParameters();
+	//lidarParam.ipAddr = "192.168.7.2";
 	lidarParam.lensType = 2;
 	lidarParam.lensCenterOffsetX = 0;
 	lidarParam.lensCenterOffsetY = 0;
@@ -239,6 +240,7 @@ void roboscanPublisher::initialise()
 
 	maxDistance = lidarParam.frequencyModulation == 0 ? 6500.0f : lidarParam.frequencyModulation == 1 ? 12500.0f : lidarParam.frequencyModulation == 2 ? 25000.0f : 50000.0f;
 
+	nh.getParam("ipAddr", lidarParam.ipAddr);
 	nh.getParam("cvShow", lidarParam.cvShow);
 	nh.getParam("lensType", lidarParam.lensType);
 	nh.getParam("imageType", lidarParam.imageType);
@@ -266,8 +268,7 @@ void roboscanPublisher::initialise()
 //	nh.getParam("interferenceDetectionLimit", lidarParam.interferenceDetectionLimit);
 //	nh.getParam("useLastValue", lidarParam.useLastValue);
 
-	nh.getParam("ipAddr", lidarParam.ipAddr);
-
+	
 	cartesianTransform.initLensTransform(sensorPixelSizeMM, LensWidth, LensHeight, lidarParam.lensCenterOffsetX, lidarParam.lensCenterOffsetY, lidarParam.lensType); //0.02 mm - sensor pixel size
 
 	int numSteps = NUM_COLORS;
@@ -352,9 +353,12 @@ void roboscanPublisher::updateConfig(roboscan_nsl1110::roboscan_nsl1110Config &c
 	//lidarParam.roi_bottomY = config.roi_bottomY;	// Don't modify 
 	lidarParam.transformAngle = config.transformAngle;
 	lidarParam.cutPixels = config.cutPixels;
+	lidarParam.ipAddr = config.ipAddr;
 
 	lidarParam.cvShow = config.cvShow;
+	saveParameters();
 	bSetReconfigure = true;
+	
 }
 
 double roboscanPublisher::interpolate( double x, double x0, double y0, double x1, double y1){
@@ -837,6 +841,34 @@ void roboscanPublisher::publishFrame(Frame *frame)
 
 		imshow(WIN_NAME, imageLidar);
 	}
+}
+
+void roboscanPublisher::saveParameters()
+{
+    std::string saveCommand = "";
+    saveCommand = "rosparam dump " + ros::package::getPath("roboscan_nsl1110") + "/rqt/rqt.yaml";
+    
+    if(saveCommand.empty()) 
+    {
+        ROS_INFO("not save parameter");
+        return;
+    }
+    //ROS_INFO("save parameter %s", saveCommand.c_str());
+    system(saveCommand.c_str());
+}
+
+void roboscanPublisher::loadParameters()
+{
+	std::string loadCommand = "";
+	loadCommand = "rosparam load " + ros::package::getPath("roboscan_nsl1110") + "/rqt/rqt.yaml";
+    
+    if(loadCommand.empty()) 
+    {
+        ROS_INFO("not load parameter");
+        return;
+    }
+    //ROS_INFO("save parameter %s", saveCommand.c_str());
+    system(loadCommand.c_str());
 }
 
 void roboscanPublisher::getMouseEvent( int &mouse_xpos, int &mouse_ypos )

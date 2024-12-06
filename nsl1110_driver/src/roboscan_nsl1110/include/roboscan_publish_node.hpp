@@ -104,6 +104,9 @@ namespace nanosys {
 		double interpolate( double x, double x0, double y0, double x1, double y1);
 		void createColorMapPixel(int numSteps, int indx, unsigned char &red, unsigned char &green, unsigned char &blue);
 		void updateConfig(roboscan_nsl1110::roboscan_nsl1110Config &config, uint32_t level);
+		void saveParameters();
+		void loadParameters();
+		
 		boost::signals2::connection connectionCameraInfo;
 		
 
@@ -129,8 +132,10 @@ namespace nanosys {
 		bool runThread;
 		bool bSetReconfigure;
 		bool bInitCmd;
+		std::string preIp;
 
 	private:
+		ros::NodeHandle nh;
 		void initialise();
 		void setParameters();
 		void getMouseEvent( int &mouse_xpos, int &mouse_ypos );

@@ -124,7 +124,7 @@ void Interface::setIpAddr(std::string ipAddr)
 bool Interface::initCommand() 
 {
 	int size = (sizeof(initialcmd)/sizeof(char*));
-	//printf("initCommand size = %d\r\n", size);
+	printf("initCommand size = %d\r\n", size);
 
 	for(int i = 0; i < size ; i++){
 		if( !tcpConnection.sendCommand((uint8_t *)initialcmd[i], strlen(initialcmd[i])) ){

@@ -4,7 +4,6 @@
   <arg name="ns" default="roboscan_nsl1110"/>
   <arg name="nn" default="camera"/>
   <arg name="respawn" default="false"/>
-  <arg name="ipAddr" default="192.168.7.2"/>  
   <arg name="lensType" default="2"/>
   <arg name="imageType" default="2"/>
   <arg name="int0"  default="1000"/>
