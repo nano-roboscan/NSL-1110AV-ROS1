@@ -1,4 +1,4 @@
-# NSL-11100AA ROS1
+# NSL-11100AV ROS1
 --- NSL-1110AA ROS1 demo ---
 
 1. Build env
@@ -20,7 +20,7 @@ $ rosrun roboscan_nsl1110 roboscan_publish_node
 $ roslaunch roboscan_nsl1110 camera.launch
 ```
 
-# NSL-1110AA View
+# NSL-1110AV View
  
 ![pointcloud](https://github.com/user-attachments/assets/9a46060c-65d9-43a0-92e1-30acf0476286)
 
