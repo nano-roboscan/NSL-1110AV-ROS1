@@ -10,7 +10,7 @@ camera:
   int1: 100
   int2: 50
   intGr: 3000
-  ipAddr: 192.168.0.101
+  ipAddr: 192.168.7.2
   lensType: 2
   medianFilter: false
   minAmplitude: 100
